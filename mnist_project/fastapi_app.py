@@ -1,13 +1,14 @@
 # fastapi_app.py
 import torch
 import numpy as np
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI
 from pydantic import BaseModel
-from io import BytesIO
-from PIL import Image
 from model import ConvNet
 
 app = FastAPI()
+
+class ImageRequest(BaseModel):
+    image: list
 
 class PredictionResponse(BaseModel):
     prediction: int
@@ -29,9 +30,7 @@ def predict(image: np.ndarray):
     return predicted.item()
 
 @app.post("/api/v1/predict", response_model=PredictionResponse)
-async def predict_image(file: UploadFile = File(...)):
-    contents = await file.read()
-    image = Image.open(BytesIO(contents)).convert("L")
-    image = np.array(image).astype(np.float32) / 255.0
+async def predict_image(request: ImageRequest):
+    image = np.array(request.image).astype(np.float32)
     prediction = predict(image)
     return PredictionResponse(prediction=prediction)
