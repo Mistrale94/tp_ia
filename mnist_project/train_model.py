@@ -1,4 +1,4 @@
-# train_model.py
+# train_model.py (modifié)
 import time
 import torch
 import torch.nn.functional as F
@@ -6,9 +6,9 @@ from tqdm import tqdm
 from data_preparation import get_data_loaders
 from model import ConvNet
 
-def train(model, train_loader, device, n_epoch=1, perm=torch.arange(0, 784).long()):
+def train(model, train_loader, device, n_epoch=10, perm=torch.arange(0, 784).long()):
     model.train()
-    optimizer = torch.optim.AdamW(model.parameters())
+    optimizer = torch.optim.AdamW(model.parameters(), lr=0.001)
     loss_history = []
     for epoch in range(n_epoch):
         running_loss = 0.0
@@ -56,11 +56,11 @@ if __name__ == '__main__':
     
     train_loader, test_loader = get_data_loaders()
 
-    model = ConvNet(input_size=28*28, n_kernels=6, output_size=10).to(device)
+    model = ConvNet(input_size=28*28, n_kernels=32, output_size=10).to(device)
 
     # Entraîner le modèle
     start_time = time.time()
-    train(model, train_loader, device, n_epoch=1)
+    train(model, train_loader, device, n_epoch=10)
     cnn_training_time = time.time() - start_time
     print(f"Temps d'entraînement CNN: {cnn_training_time:.2f} secondes")
 

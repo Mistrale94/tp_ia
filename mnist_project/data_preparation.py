@@ -1,10 +1,13 @@
-# data_preparation.py
+# data_preparation.py (modifié)
 import torch
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 
 def get_data_loaders(batch_size=64):
     transform = transforms.Compose([
+        transforms.RandomRotation(10),
+        transforms.RandomAffine(0, translate=(0.1, 0.1)),
+        transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         transforms.Normalize((0.1307,), (0.3081,))
     ])
