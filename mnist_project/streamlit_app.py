@@ -3,14 +3,14 @@ import streamlit as st
 import requests
 from PIL import Image
 import numpy as np
-import json
 from io import BytesIO
+from streamlit_drawable_canvas import st_canvas
 
 st.title("Reconnaissance de chiffres manuscrits")
 
 # Zone de dessin
 st.subheader("Dessinez un chiffre")
-canvas_result = st.canvas(
+canvas_result = st_canvas(
     fill_color="white",
     stroke_width=10,
     stroke_color="black",
@@ -34,7 +34,7 @@ if st.button("Prédire"):
         image_array = image_array.tolist()
 
         response = requests.post(
-            "http://127.0.0.1:8000/api/v1/predict",
+            "http://localhost:8000/api/v1/predict",
             json={"image": image_array},
         )
 
