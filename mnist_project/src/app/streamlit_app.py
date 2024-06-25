@@ -1,4 +1,4 @@
-# streamlit_app.py
+# src/app/streamlit_app.py
 import streamlit as st
 import requests
 from PIL import Image

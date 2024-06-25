@@ -2,8 +2,8 @@ torch
 torchvision
 tqdm
 fastapi
-pydantic
 uvicorn
+pydantic
 Pillow
 streamlit
 streamlit-drawable-canvas

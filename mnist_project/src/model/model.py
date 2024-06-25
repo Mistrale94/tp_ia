@@ -1,4 +1,4 @@
-# model.py (modifié)
+# src/model/model.py
 import torch.nn as nn
 
 class ConvNet(nn.Module):
@@ -22,6 +22,7 @@ class ConvNet(nn.Module):
 
             nn.Linear(in_features=n_kernels*4*3*3, out_features=128),
             nn.ReLU(),
+            nn.Dropout(0.5),
 
             nn.Linear(in_features=128, out_features=output_size)
         )

@@ -1,9 +1,15 @@
-# fastapi_app.py
+# src/app/fastapi_app.py
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
 import torch
 import numpy as np
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from pydantic import BaseModel
-from model import ConvNet
+from io import BytesIO
+from PIL import Image
+from src.model.model import ConvNet
 
 app = FastAPI()
 
@@ -14,7 +20,7 @@ class PredictionResponse(BaseModel):
     prediction: int
 
 # Charger le modèle
-model_path = "convnet_model.pt"
+model_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'model', 'convnet_model.pt'))
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = ConvNet(input_size=28*28, n_kernels=32, output_size=10)
 model.load_state_dict(torch.load(model_path, map_location=device))
@@ -31,6 +37,9 @@ def predict(image: np.ndarray):
 
 @app.post("/api/v1/predict", response_model=PredictionResponse)
 async def predict_image(request: ImageRequest):
-    image = np.array(request.image).astype(np.float32)
-    prediction = predict(image)
-    return PredictionResponse(prediction=prediction)
+    try:
+        image = np.array(request.image).astype(np.float32)
+        prediction = predict(image)
+        return PredictionResponse(prediction=prediction)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
