@@ -54,7 +54,9 @@ def test(model, test_loader, device, perm=torch.arange(0, 784).long()):
 if __name__ == '__main__':
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
-    train_loader, test_loader = get_data_loaders()
+    print(f"Using device: {device}")
+
+    train_loader, test_loader = get_data_loaders(batch_size=128)
 
     model = ConvNet(input_size=28*28, n_kernels=32, output_size=10).to(device)
 

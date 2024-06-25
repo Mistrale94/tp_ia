@@ -16,7 +16,7 @@ class PredictionResponse(BaseModel):
 # Charger le modèle
 model_path = "convnet_model.pt"
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = ConvNet(input_size=28*28, n_kernels=6, output_size=10)
+model = ConvNet(input_size=28*28, n_kernels=32, output_size=10)
 model.load_state_dict(torch.load(model_path, map_location=device))
 model.to(device)
 model.eval()

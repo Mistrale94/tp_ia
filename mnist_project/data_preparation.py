@@ -3,7 +3,7 @@ import torch
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 
-def get_data_loaders(batch_size=64):
+def get_data_loaders(batch_size=512):
     transform = transforms.Compose([
         transforms.RandomRotation(10),
         transforms.RandomAffine(0, translate=(0.1, 0.1)),
@@ -15,7 +15,8 @@ def get_data_loaders(batch_size=64):
     train_dataset = datasets.MNIST(root='../data', train=True, download=True, transform=transform)
     test_dataset = datasets.MNIST(root='../data', train=False, download=True, transform=transform)
 
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
-    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=8)
+    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=8)
 
     return train_loader, test_loader
+
