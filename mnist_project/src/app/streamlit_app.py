@@ -37,7 +37,7 @@ if st.button("Prédire"):
         image_array = image.tolist()
 
         response = requests.post(
-            "http://localhost:8000/api/v1/predict",
+            "http://backend:8000/api/v1/predict",
             json={"image": image_array},
         )
 

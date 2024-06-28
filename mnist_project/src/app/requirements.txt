@@ -1,0 +1,13 @@
+torch
+torchvision
+tqdm
+fastapi
+uvicorn
+pydantic
+Pillow
+streamlit
+streamlit-drawable-canvas
+requests
+numpy
+pillow
+opencv-python-headless

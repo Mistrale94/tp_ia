@@ -1,12 +1,18 @@
-FROM python:3.8-slim
+# Utilisez l'image de base officielle de Streamlit
+FROM python:3.12
 
+# Définissez le répertoire de travail
 WORKDIR /app
 
+# Copiez le fichier requirements.txt et installez les dépendances
 COPY ../../requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copiez le fichier de l'application Streamlit
 COPY streamlit_app.py .
 
+# Exposez le port 8501
 EXPOSE 8501
 
-CMD ["streamlit", "run", "streamlit_app.py", "--server.port", "8501", "--server.address", "localhost"]
+# Démarrez l'application Streamlit
+CMD ["streamlit", "run", "streamlit_app.py", "--server.port", "8501", "--server.address", "0.0.0.0"]

@@ -9,7 +9,7 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from pydantic import BaseModel
 from io import BytesIO
 from PIL import Image
-from src.model.model import ConvNet
+from models.model import ConvNet
 import uvicorn
 from torchvision import transforms
 
@@ -23,18 +23,11 @@ class PredictionResponse(BaseModel):
 
 VERSION="0.0.1"
 # Charger le modèle
-model_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'model', f"mnist.{VERSION}.pt"))
+model_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'models', f"mnist.{VERSION}.pt"))
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def predict(image: np.ndarray) -> np.ndarray:
-    """
-    Run model and get result
-    :param package: dict from fastapi state including model and processing objects
-    :param input: list of input values or an image in a suitable format
-    :return: numpy array of model output
-    """
-
     transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize((0.1307,), (0.3081,))
