@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./src/app
+      dockerfile: Dockerfile.streamlit
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./src/app/streamlit_app.py:/app/streamlit_app.py
+
+  backend:
+    build:
+      context: ./src/app
+      dockerfile: Dockerfile.fastapi
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src/app/fastapi_app.py:/app/fastapi_app.py
+      - ./src/model:/app/model

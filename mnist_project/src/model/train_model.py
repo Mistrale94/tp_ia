@@ -43,11 +43,11 @@ def test(model, test_loader, device, perm=torch.arange(0, 784).long()):
             data = data.view(-1, 1, 28, 28)
             logits = model(data)
             test_loss += F.cross_entropy(logits, target, reduction='sum').item()
-            pred = logits.argmax(dim=1)
-            correct += pred.eq(target).sum().item()
+            pred = torch.argmax(logits, dim=1)
+            correct += (pred == target).sum()
             total += target.size(0)
-    test_loss /= total
-    accuracy = correct / total
+    test_loss /= len(test_loader)
+    accuracy = correct / len(test_loader)
     print(f'Test Loss: {test_loss:.4f}, Accuracy: {accuracy:.4f}')
     return test_loss, accuracy
 
@@ -56,13 +56,13 @@ if __name__ == '__main__':
     
     print(f"Using device: {device}")
 
-    train_loader, test_loader = get_data_loaders(batch_size=64)
+    train_loader, test_loader = get_data_loaders(batch_size=256)
 
-    model = ConvNet(input_size=28*28, n_kernels=32, output_size=10).to(device)
-
+    model = ConvNet(input_size=28*28, n_kernels=5, output_size=10).to(device)
+    VERSION = "0.0.1"
     # Entraîner le modèle
     start_time = time.time()
-    train(model, train_loader, device, n_epoch=20)
+    train(model, train_loader, device, n_epoch=10)
     cnn_training_time = time.time() - start_time
     print(f"Temps d'entraînement CNN: {cnn_training_time:.2f} secondes")
 
@@ -70,6 +70,6 @@ if __name__ == '__main__':
     test_loss, test_accuracy = test(model, test_loader, device)
     
     # Sauvegarder le modèle
-    model_path = "convnet_model.pt"
+    model_path = f"mnist.{VERSION}.pt"
     torch.save(model.state_dict(), model_path)
     print(f"Modèle ConvNet sauvegardé sous {model_path}")

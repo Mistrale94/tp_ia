@@ -8,3 +8,5 @@ Pillow
 streamlit
 streamlit-drawable-canvas
 requests
+numpy
+pillow
