@@ -1,19 +1,14 @@
 # Utilisez l'image de base officielle de Python
 FROM python:3.12
 
-# Définissez le répertoire de travail
 WORKDIR /app
 
-# Copiez le fichier requirements.txt et installez les dépendances
 COPY ../../requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiez les fichiers de l'application FastAPI
 COPY fastapi_app.py .
 COPY ./models /app/models
 
-# Exposez le port 8000
 EXPOSE 8000
 
-# Démarrez l'application FastAPI
 CMD ["uvicorn", "fastapi_app:app", "--host", "0.0.0.0", "--port", "8000"]

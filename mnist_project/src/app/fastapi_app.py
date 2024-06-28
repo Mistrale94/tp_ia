@@ -68,5 +68,4 @@ def predict_image(request: ImageRequest):
 
 
 if __name__ == '__main__':
-    # server api
     uvicorn.run("fastapi_app:app", host="localhost", port=8000, reload=True)

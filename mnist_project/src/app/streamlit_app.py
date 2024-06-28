@@ -31,7 +31,7 @@ if canvas_result.image_data is not None:
     st.write("Model input")
     st.image(image_rescaled)
 
-# Bouton pour envoyer l'image
+# Bouton predict
 if st.button("Prédire"):
     if canvas_result.image_data is not None:
         image_array = image.tolist()
