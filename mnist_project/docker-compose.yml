@@ -3,12 +3,12 @@ version: '3.8'
 services:
   frontend:
     build:
-      context: ./src/app
+      context: ./mnist_project/src/app
       dockerfile: Dockerfile.streamlit
     ports:
       - "8501:8501"
     volumes:
-      - ./src/app/streamlit_app.py:/app/streamlit_app.py
+      - ./mnist_project/src/app/streamlit_app.py:/app/streamlit_app.py
 
   backend:
     build:
@@ -17,5 +17,5 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./src/app/fastapi_app.py:/app/fastapi_app.py
-      - ./src/model:/app/model
+      - ./mnist_project/src/app/fastapi_app.py:/app/fastapi_app.py
+      - ./mnist_project/src/model:/app/model
